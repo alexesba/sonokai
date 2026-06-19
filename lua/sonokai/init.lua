@@ -2,54 +2,6 @@ local colors = require('sonokai.colors')
 local config = require('sonokai.config')
 local sonokai = {}
 
-local plugin_root = vim.fn.fnamemodify(debug.getinfo(1, 'S').source:sub(2), ':h:h:h')
-
-local function to_vim_dict(value)
-  if value == nil or (type(value) == 'table' and vim.tbl_isempty(value)) then
-    return vim.empty_dict()
-  end
-  return vim.tbl_deep_extend('force', vim.empty_dict(), value)
-end
-
-local function transparent_background_value(value)
-  if value == true then
-    return 1
-  end
-  if value == false or value == nil then
-    return 0
-  end
-  return value
-end
-
---- Sync Lua config to legacy g: variables used by colors/sonokai.vim.
-local function sync_legacy_globals()
-  local transparent = transparent_background_value(config.transparent_background)
-  local current_word = config.current_word
-  if current_word == nil then
-    current_word = transparent == 0 and 'grey background' or 'bold'
-  end
-
-  vim.g.sonokai_style = config.style
-  vim.g.sonokai_colors_override = to_vim_dict(config.colors_override)
-  vim.g.sonokai_transparent_background = transparent
-  vim.g.sonokai_dim_inactive_windows = config.dim_inactive_windows and 1 or 0
-  vim.g.sonokai_disable_italic_comment = config.disable_italic_comment and 1 or 0
-  vim.g.sonokai_enable_italic = config.enable_italic and 1 or 0
-  vim.g.sonokai_cursor = config.cursor
-  vim.g.sonokai_menu_selection_background = config.menu_selection_background
-  vim.g.sonokai_spell_foreground = config.spell_foreground
-  vim.g.sonokai_show_eob = config.show_eob and 1 or 0
-  vim.g.sonokai_float_style = config.float_style
-  vim.g.sonokai_current_word = current_word
-  vim.g.sonokai_inlay_hints_background = config.inlay_hints_background
-  vim.g.sonokai_lightline_disable_bold = config.lightline_disable_bold and 1 or 0
-  vim.g.sonokai_diagnostic_text_highlight = config.diagnostic_text_highlight and 1 or 0
-  vim.g.sonokai_diagnostic_line_highlight = config.diagnostic_line_highlight and 1 or 0
-  vim.g.sonokai_diagnostic_virtual_text = config.diagnostic_virtual_text
-  vim.g.sonokai_disable_terminal_colors = config.disable_terminal_colors and 1 or 0
-  vim.g.sonokai_better_performance = 0
-end
-
 local function apply_overrides()
   local overrides = type(config.overrides) == 'function' and config.overrides() or config.overrides
   if type(overrides) ~= 'table' then
@@ -91,7 +43,6 @@ function sonokai.colorscheme(style)
     config.style = style
   end
 
-  sync_legacy_globals()
   colors.generate(config.style, config.colors_override)
 
   vim.o.termguicolors = true
@@ -106,14 +57,9 @@ function sonokai.colorscheme(style)
     set_terminal_colors(merged_palette)
   end
 
-  vim.g.sonokai_use_lua_highlights = 1
   require('sonokai.highlights').set_groups()
 
-  -- legacy.vim is kept for compatibility hooks only.
-  vim.cmd('source ' .. plugin_root .. '/lua/sonokai/legacy.vim')
-
-  local colors_name = config.style == 'default' and 'sonokai' or ('sonokai-' .. config.style)
-  vim.g.colors_name = colors_name
+  vim.g.colors_name = config.style == 'default' and 'sonokai' or ('sonokai-' .. config.style)
 
   apply_overrides()
 end
