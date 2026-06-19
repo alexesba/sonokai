@@ -13,7 +13,7 @@ let s:path = expand('<sfile>:p') " the path of this script
 let s:last_modified = 'Sun Jan  4 08:48:27 UTC 2026'
 let g:sonokai_loaded_file_types = []
 
-if !(exists('g:colors_name') && g:colors_name ==# 'sonokai' && s:configuration.better_performance)
+if !(exists('g:colors_name') && g:colors_name ==# 'sonokai' && s:configuration.better_performance) && !get(g:, 'sonokai_use_lua_highlights', 0)
   highlight clear
   if exists('syntax_on')
     syntax reset
@@ -27,6 +27,7 @@ if !(has('termguicolors') && &termguicolors) && !has('gui_running') && &t_Co < 2
 endif
 " }}}
 " Common Highlight Groups: {{{
+if !get(g:, 'sonokai_use_lua_highlights', 0)
 " UI: {{{
 if s:configuration.transparent_background
   call sonokai#highlight('Normal', s:palette.fg, s:palette.none)
@@ -447,10 +448,10 @@ let g:sonokai_lsp_kind_color = [
       \ ["Value", "Purple"],
       \ ["Variable", "Orange"],
       \ ]
-" }}}
+endif
 " }}}
 " Terminal: {{{
-if ((has('termguicolors') && &termguicolors) || has('gui_running')) && !s:configuration.disable_terminal_colors
+if !get(g:, 'sonokai_use_lua_highlights', 0) && ((has('termguicolors') && &termguicolors) || has('gui_running')) && !s:configuration.disable_terminal_colors
   " Definition
   let s:terminal = {
         \ 'black':           s:palette.black,
@@ -490,6 +491,7 @@ if ((has('termguicolors') && &termguicolors) || has('gui_running')) && !s:config
 endif
 " }}}
 " Plugins: {{{
+if !get(g:, 'sonokai_use_lua_highlights', 0)
 " nvim-treesitter/nvim-treesitter {{{
 call sonokai#highlight('TSStrong', s:palette.none, s:palette.none, 'bold')
 call sonokai#highlight('TSEmphasis', s:palette.none, s:palette.none, 'italic')
@@ -1487,6 +1489,7 @@ call sonokai#highlight('LightspeedPendingOpArea', s:palette.bg0, s:palette.green
 highlight! link LightspeedMaskedChar Purple
 highlight! link LightspeedGreyWash Grey
 " }}}
+endif
 endif
 " }}}
 " Extended File Types: {{{
