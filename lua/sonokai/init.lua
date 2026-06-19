@@ -106,6 +106,9 @@ function sonokai.colorscheme(style)
     set_terminal_colors(merged_palette)
   end
 
+  vim.g.sonokai_use_lua_highlights = 1
+  require('sonokai.highlights').set_groups()
+
   vim.cmd('source ' .. plugin_root .. '/lua/sonokai/legacy.vim')
 
   local colors_name = config.style == 'default' and 'sonokai' or ('sonokai-' .. config.style)
