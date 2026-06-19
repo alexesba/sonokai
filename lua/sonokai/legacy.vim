@@ -1493,6 +1493,7 @@ endif
 endif
 " }}}
 " Extended File Types: {{{
+if !get(g:, 'sonokai_use_lua_highlights', 0)
 " Whitelist: {{{ File type optimizations that will always be loaded.
 " diff {{{
 highlight! link diffAdded Added
@@ -3051,6 +3052,7 @@ highlight! link helpExample Green
 highlight! link helpSpecial Purple
 highlight! link helpSectionDelim Grey
 " syn_end }}}
+endif
 " }}}
 
 " vim: set sw=2 ts=2 sts=2 et tw=80 ft=vim fdm=marker fmr={{{,}}}:
