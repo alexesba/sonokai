@@ -1,8 +1,105 @@
+# Sonokai
+
+Neovim-native Lua colorscheme based on [sainnhe/sonokai](https://github.com/sainnhe/sonokai).
+
+Sometimes I need a high contrast color scheme, and I think monokai is one of the best solutions, it's very beautiful and vivid.
+
+However there is one thing I can't stand -- the contrast is too high, which is totally unacceptable for me.
+
+This color scheme is based on [Monokai Pro](https://monokai.pro/vscode), the contrast is adjusted to be a bit lower while keeping the colors vivid enough.
+
+The `shusia`, `maia` and `espresso` variants are basically modified versions of Monokai Pro. I'm not going to port all variants of Monokai Pro because I don't like some of them. In addition, I designed some new variants inspired by other color schemes.
+
+## Installation
+
+```lua
+{
+  'alexesba/sonokai',
+  lazy = false,
+  priority = 1000,
+}
+```
+
+## Usage
+
+Call `require('sonokai').colorscheme()` from Lua or use `:colorscheme sonokai`. By default this uses the `default` style from your configuration.
+
+To pick a variant directly:
+
+- `:colorscheme sonokai`
+- `:colorscheme sonokai-atlantis`
+- `:colorscheme sonokai-andromeda`
+- `:colorscheme sonokai-shusia`
+- `:colorscheme sonokai-maia`
+- `:colorscheme sonokai-espresso`
+
+Example:
+
+```lua
+require('sonokai').setup({ enable_italic = true })
+vim.cmd.colorscheme('sonokai-andromeda')
+```
+
+## Configuration
+
+Configure the colorscheme with `require('sonokai').setup(values)`, where `values` is a table of options to override. Defaults:
+
+```lua
+require('sonokai').setup({
+  style = 'default',
+  colors_override = {},
+  transparent_background = false,
+  dim_inactive_windows = false,
+  disable_italic_comment = false,
+  enable_italic = false,
+  cursor = '',
+  menu_selection_background = 'blue',
+  spell_foreground = 'none',
+  show_eob = true,
+  float_style = 'bright',
+  current_word = nil,
+  inlay_hints_background = 'none',
+  lightline_disable_bold = false,
+  diagnostic_text_highlight = false,
+  diagnostic_line_highlight = false,
+  diagnostic_virtual_text = 'grey',
+  disable_terminal_colors = false,
+  terminal = true,
+  overrides = {},
+})
+```
+
+`overrides` can also be a function that returns a table of highlight groups. For example, to make the background transparent:
+
+```lua
+require('sonokai').setup({
+  transparent_background = true,
+  overrides = {
+    Normal = { bg = 'none' },
+    NormalFloat = { bg = 'none' },
+  },
+})
+```
+
+Sonokai also ships a theme for [lualine.nvim](https://github.com/nvim-lualine/lualine.nvim):
+
+```lua
+require('lualine').setup({
+  options = {
+    theme = 'sonokai',
+  },
+})
+```
+
+Lightline and airline themes are still available under `autoload/lightline/colorscheme/sonokai.vim` and `autoload/airline/themes/sonokai.vim`.
+
+## Screenshots
+
 <h2 align="center">
 𝐃𝐞𝐟𝐚𝐮𝐥𝐭
 </h2>
 
-![sonokai-default](https://user-images.githubusercontent.com/37491630/87916859-a03dad80-caa6-11ea-9694-b34c4a980672.png)
+![sonokai](https://user-images.githubusercontent.com/37491630/87916859-a03dad80-caa6-11ea-9694-b34c4a980672.png)
 ![default](https://github.com/user-attachments/assets/a7ec8cc5-efa1-4ddb-9b46-b8dd93d3f9fa)
 
 <h2 align="center">
@@ -40,14 +137,6 @@
 ![sonokai-espresso](https://user-images.githubusercontent.com/37491630/120320919-49834000-c315-11eb-872c-230f78cf99a1.png)
 ![espresso](https://github.com/user-attachments/assets/4c5071db-36a5-463a-91a4-78793b5e49ca)
 
-Sometimes I need a high contrast color scheme, and I think monokai is one of the best solutions, it's very beautiful and vivid.
-
-However there is one thing I can't stand -- the contrast is too high, which is totally unacceptable for me.
-
-This color scheme is based on [Monokai Pro](https://monokai.pro/vscode), the contrast is adjusted to be a bit lower while keeping the colors vivid enough.
-
-The `shusia`, `maia` and `espresso` variants are basically modified versions of Monokai Pro. I'm not going to port all variants of Monokai Pro because I don't like some of them. In addition, I designed some new variants inspired by other color schemes.
-
 ## Features
 
 - High contrast but within acceptable range.
@@ -60,7 +149,7 @@ The `shusia`, `maia` and `espresso` variants are basically modified versions of 
 
 ## Documentation
 
-See [`:help sonokai.txt`](https://github.com/sainnhe/sonokai/blob/master/doc/sonokai.txt)
+Legacy Vim help is still available in [`:help sonokai.txt`](doc/sonokai.txt) and describes the original `g:sonokai_*` options. For Neovim Lua usage, see the sections above.
 
 ## Related Projects
 
