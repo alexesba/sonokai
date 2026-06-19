@@ -425,6 +425,7 @@ function M.set_groups()
   set_ui(groups)
   set_syntax(groups)
   set_predefined(groups)
+  require('sonokai.highlights.plugins').set_groups(groups)
   util.apply(groups)
 end
 
