@@ -149,7 +149,7 @@ Lightline and airline themes are still available under `autoload/lightline/color
 
 ## Documentation
 
-Legacy Vim help is still available in [`:help sonokai.txt`](doc/sonokai.txt) and describes the original `g:sonokai_*` options. For Neovim Lua usage, see the sections above.
+See [`:help sonokai.txt`](doc/sonokai.txt) for full Neovim Lua usage, configuration options, and FAQ.
 
 ## Related Projects
 
